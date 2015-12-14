@@ -11,8 +11,6 @@ import android.widget.Button;
 import com.fitaleks.displayjokes.ActivityJoke;
 import com.google.android.gms.ads.AdRequest;
 import com.google.android.gms.ads.AdView;
-import com.udacity.gradle.builditbigger.R;
-
 
 /**
  * A placeholder fragment containing a simple view.
@@ -47,8 +45,9 @@ public class MainActivityFragment extends Fragment {
     }
 
     private void tellJoke(){
-        final Intent intent = new Intent(getActivity(), ActivityJoke.class);
-        intent.putExtra(ActivityJoke.KEY_JOKE, JokesProvider.getJoke());
-        getActivity().startActivity(intent);
+//        final Intent intent = new Intent(getActivity(), ActivityJoke.class);
+//        intent.putExtra(ActivityJoke.KEY_JOKE, JokesProvider.getJoke());
+//        getActivity().startActivity(intent);
+        new GetJokeAsyncTask().execute(getContext());
     }
 }
