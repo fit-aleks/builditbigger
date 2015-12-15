@@ -1,10 +1,13 @@
 package com.fitaleks.builditbigger;
 
+import android.app.Activity;
 import android.content.Context;
+import android.content.Intent;
 import android.os.AsyncTask;
 import android.widget.Toast;
 
 import com.fitaleks.builditbigger.backend.myApi.MyApi;
+import com.fitaleks.displayjokes.ActivityJoke;
 import com.google.api.client.extensions.android.http.AndroidHttp;
 import com.google.api.client.extensions.android.json.AndroidJsonFactory;
 import com.google.api.client.googleapis.services.AbstractGoogleClientRequest;
@@ -15,12 +18,12 @@ import java.io.IOException;
 /**
  * Created by alexanderkulikovskiy on 15.12.15.
  */
-public class GetJokeAsyncTask extends AsyncTask<Context, Void, String> {
+public class GetJokeAsyncTask extends AsyncTask<Activity, Void, String> {
     private static MyApi mApiService = null;
-    private Context context;
+    private Activity context;
 
     @Override
-    protected String doInBackground(Context... params) {
+    protected String doInBackground(Activity... params) {
         if (mApiService == null) {
             MyApi.Builder builder = new MyApi.Builder(AndroidHttp.newCompatibleTransport(),
                     new AndroidJsonFactory(), null)
@@ -49,6 +52,8 @@ public class GetJokeAsyncTask extends AsyncTask<Context, Void, String> {
 
     @Override
     protected void onPostExecute(String s) {
-        Toast.makeText(context, s, Toast.LENGTH_SHORT).show();
+        final Intent intent = new Intent(context, ActivityJoke.class);
+        intent.putExtra(ActivityJoke.KEY_JOKE, s);
+        context.startActivity(intent);
     }
 }
