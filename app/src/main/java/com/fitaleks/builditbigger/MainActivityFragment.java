@@ -45,9 +45,13 @@ public class MainActivityFragment extends Fragment {
     }
 
     private void tellJoke(){
-//        final Intent intent = new Intent(getActivity(), ActivityJoke.class);
-//        intent.putExtra(ActivityJoke.KEY_JOKE, JokesProvider.getJoke());
-//        getActivity().startActivity(intent);
-        new GetJokeAsyncTask().execute(getActivity());
+        new GetJokeAsyncTask(new IJokeDownloadListener() {
+            @Override
+            public void onJokeLoaded(final String joke) {
+                final Intent intent = new Intent(getActivity(), ActivityJoke.class);
+                intent.putExtra(ActivityJoke.KEY_JOKE, joke);
+                getActivity().startActivity(intent);
+            }
+        }).execute();
     }
 }

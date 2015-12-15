@@ -1,10 +1,8 @@
 package com.fitaleks.builditbigger;
 
 import android.app.Activity;
-import android.content.Context;
 import android.content.Intent;
 import android.os.AsyncTask;
-import android.widget.Toast;
 
 import com.fitaleks.builditbigger.backend.myApi.MyApi;
 import com.fitaleks.displayjokes.ActivityJoke;
@@ -18,12 +16,16 @@ import java.io.IOException;
 /**
  * Created by alexanderkulikovskiy on 15.12.15.
  */
-public class GetJokeAsyncTask extends AsyncTask<Activity, Void, String> {
+public class GetJokeAsyncTask extends AsyncTask<Void, Void, String> {
     private static MyApi mApiService = null;
-    private Activity context;
+    private final IJokeDownloadListener downloadListener;
+
+    public GetJokeAsyncTask(IJokeDownloadListener listener) {
+        this.downloadListener = listener;
+    }
 
     @Override
-    protected String doInBackground(Activity... params) {
+    protected String doInBackground(Void... params) {
         if (mApiService == null) {
             MyApi.Builder builder = new MyApi.Builder(AndroidHttp.newCompatibleTransport(),
                     new AndroidJsonFactory(), null)
@@ -40,7 +42,6 @@ public class GetJokeAsyncTask extends AsyncTask<Activity, Void, String> {
             // end options for devappserver
             mApiService = builder.build();
         }
-        this.context = params[0];
 
         try {
             return mApiService.sayJoke().execute().getData();
@@ -52,8 +53,6 @@ public class GetJokeAsyncTask extends AsyncTask<Activity, Void, String> {
 
     @Override
     protected void onPostExecute(String s) {
-        final Intent intent = new Intent(context, ActivityJoke.class);
-        intent.putExtra(ActivityJoke.KEY_JOKE, s);
-        context.startActivity(intent);
+        this.downloadListener.onJokeLoaded(s);
     }
 }
