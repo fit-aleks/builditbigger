@@ -7,6 +7,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
+import android.widget.ProgressBar;
 
 import com.fitaleks.displayjokes.ActivityJoke;
 import com.google.android.gms.ads.AdRequest;
@@ -17,8 +18,7 @@ import com.google.android.gms.ads.AdView;
  */
 public class MainActivityFragment extends Fragment {
 
-    public MainActivityFragment() {
-    }
+    private ProgressBar progressBar;
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
@@ -32,6 +32,7 @@ public class MainActivityFragment extends Fragment {
                 tellJoke();
             }
         });
+        progressBar = (ProgressBar)root.findViewById(R.id.main_progress);
 
         AdView mAdView = (AdView) root.findViewById(R.id.adView);
         // Create an ad request. Check logcat output for the hashed device ID to
@@ -45,9 +46,11 @@ public class MainActivityFragment extends Fragment {
     }
 
     private void tellJoke(){
+        progressBar.setVisibility(View.VISIBLE);
         new GetJokeAsyncTask(new IJokeDownloadListener() {
             @Override
             public void onJokeLoaded(final String joke) {
+                progressBar.setVisibility(View.GONE);
                 final Intent intent = new Intent(getActivity(), ActivityJoke.class);
                 intent.putExtra(ActivityJoke.KEY_JOKE, joke);
                 getActivity().startActivity(intent);
