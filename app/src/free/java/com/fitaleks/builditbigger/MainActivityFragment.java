@@ -10,15 +10,20 @@ import android.widget.Button;
 import android.widget.ProgressBar;
 
 import com.fitaleks.displayjokes.ActivityJoke;
+import com.google.android.gms.ads.AdListener;
 import com.google.android.gms.ads.AdRequest;
 import com.google.android.gms.ads.AdView;
+import com.google.android.gms.ads.InterstitialAd;
 
 /**
  * A placeholder fragment containing a simple view.
  */
 public class MainActivityFragment extends Fragment {
 
+    private String loadedJoke;
     private ProgressBar progressBar;
+
+    private InterstitialAd interstitialAd;
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
@@ -42,7 +47,27 @@ public class MainActivityFragment extends Fragment {
                 .addTestDevice(AdRequest.DEVICE_ID_EMULATOR)
                 .build();
         mAdView.loadAd(adRequest);
+
+        interstitialAd = new InterstitialAd(getContext());
+        interstitialAd.setAdUnitId("ca-app-pub-3940256099942544/1033173712");
+        interstitialAd.setAdListener(new AdListener() {
+            @Override
+            public void onAdClosed() {
+                requestNewInterstitial();
+                openJokeContentActivity(loadedJoke);
+            }
+        });
+        requestNewInterstitial();
+
         return root;
+    }
+
+    private void requestNewInterstitial() {
+        final AdRequest adRequest = new AdRequest.Builder()
+                .addTestDevice(AdRequest.DEVICE_ID_EMULATOR)
+                .build();
+
+        interstitialAd.loadAd(adRequest);
     }
 
     private void tellJoke(){
@@ -50,11 +75,20 @@ public class MainActivityFragment extends Fragment {
         new GetJokeAsyncTask(new IJokeDownloadListener() {
             @Override
             public void onJokeLoaded(final String joke) {
-                progressBar.setVisibility(View.GONE);
-                final Intent intent = new Intent(getActivity(), ActivityJoke.class);
-                intent.putExtra(ActivityJoke.KEY_JOKE, joke);
-                getActivity().startActivity(intent);
+                if (interstitialAd.isLoaded()) {
+                    loadedJoke = joke;
+                    interstitialAd.show();
+                } else {
+                    openJokeContentActivity(joke);
+                }
             }
         }).execute();
+    }
+
+    private void openJokeContentActivity(String joke) {
+        progressBar.setVisibility(View.GONE);
+        final Intent intent = new Intent(getActivity(), ActivityJoke.class);
+        intent.putExtra(ActivityJoke.KEY_JOKE, joke);
+        getActivity().startActivity(intent);
     }
 }
