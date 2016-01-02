@@ -11,6 +11,8 @@ import com.google.api.server.spi.config.Api;
 import com.google.api.server.spi.config.ApiMethod;
 import com.google.api.server.spi.config.ApiNamespace;
 
+import java.util.Random;
+
 import javax.inject.Named;
 
 /** An endpoint class we are exposing */
@@ -27,17 +29,22 @@ public class MyEndpoint {
 
     /** A simple endpoint method that takes a name and says Hi back */
     @ApiMethod(name = "sayHi")
-    public MyBean sayHi(@Named("name") String name) {
-        MyBean response = new MyBean();
+    public JokeBean sayHi(@Named("name") String name) {
+        JokeBean response = new JokeBean();
         response.setData("Hi, " + name);
 
         return response;
     }
 
     @ApiMethod(name = "sayJoke")
-    public MyBean sayJoke() {
-        MyBean response = new MyBean();
-        response.setData(JokesProvider.getJoke());
+    public JokeBean sayJoke() {
+        JokeBean response = new JokeBean();
+        final Random rand = new Random();
+        if (rand.nextInt(2) == 0) {
+            response.setData(JokesProvider.getJoke());
+        } else {
+            response.setData(JokesProvider.getImgJoke());
+        }
         return response;
     }
 

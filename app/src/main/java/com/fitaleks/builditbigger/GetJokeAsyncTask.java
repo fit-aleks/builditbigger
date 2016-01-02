@@ -3,6 +3,7 @@ package com.fitaleks.builditbigger;
 import android.os.AsyncTask;
 
 import com.fitaleks.builditbigger.backend.myApi.MyApi;
+import com.fitaleks.builditbigger.backend.myApi.model.JokeBean;
 import com.google.api.client.extensions.android.http.AndroidHttp;
 import com.google.api.client.extensions.android.json.AndroidJsonFactory;
 
@@ -33,6 +34,8 @@ public class GetJokeAsyncTask extends AsyncTask<Void, Void, String> {
         }
 
         try {
+//            JokeBean jokeBean = mApiService.sayJoke().execute();
+//            return jokeBean.getData() != null ? jokeBean.getData() : "";
             return mApiService.sayJoke().execute().getData();
         } catch (IOException ex) {
             return ex.getMessage();
