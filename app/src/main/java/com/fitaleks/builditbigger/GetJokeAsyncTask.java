@@ -24,17 +24,11 @@ public class GetJokeAsyncTask extends AsyncTask<Void, Void, String> {
         if (mApiService == null) {
             MyApi.Builder builder = new MyApi.Builder(AndroidHttp.newCompatibleTransport(),
                     new AndroidJsonFactory(), null)
-                    // options for running against local devappserver
-                    // - 192.168.187.57 is my Mac at home network address
-                    // - turn off compression when running against local devappserver
                     .setRootUrl("https://build-it-bigger-1168.appspot.com/_ah/api/");
-            // end options for devappserver
             mApiService = builder.build();
         }
 
         try {
-//            JokeBean jokeBean = mApiService.sayJoke().execute();
-//            return jokeBean.getData() != null ? jokeBean.getData() : "";
             return mApiService.sayJoke().execute().getData();
         } catch (IOException ex) {
             return ex.getMessage();
