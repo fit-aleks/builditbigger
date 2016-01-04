@@ -1,8 +1,10 @@
 package com.fitaleks.builditbigger;
 
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
+import android.support.v7.app.AlertDialog;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -14,9 +16,7 @@ import com.fitaleks.displayjokes.ActivityJoke;
 /**
  * Main fragment for paid version of the app
  */
-public class MainActivityFragment extends Fragment {
-
-    private ProgressBar progressBar;
+public class MainActivityFragment extends BaseMainFragment {
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
@@ -35,7 +35,13 @@ public class MainActivityFragment extends Fragment {
         return root;
     }
 
-    private void tellJoke(){
+    @Override
+    protected void tellJoke(){
+        if (!Utils.isConnected(getContext())) {
+            showErrorDialog();
+            return;
+        }
+
         progressBar.setVisibility(View.VISIBLE);
         new GetJokeAsyncTask(new IJokeDownloadListener() {
             @Override
@@ -47,4 +53,5 @@ public class MainActivityFragment extends Fragment {
             }
         }).execute();
     }
+
 }

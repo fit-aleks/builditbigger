@@ -1,14 +1,17 @@
 package com.fitaleks.builditbigger;
 
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
+import android.support.v7.app.AlertDialog;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.ProgressBar;
 
+import com.fitaleks.builditbigger.BaseMainFragment;
 import com.fitaleks.displayjokes.ActivityJoke;
 import com.google.android.gms.ads.AdListener;
 import com.google.android.gms.ads.AdRequest;
@@ -18,10 +21,9 @@ import com.google.android.gms.ads.InterstitialAd;
 /**
  * Main fragment for free version of the app
  */
-public class MainActivityFragment extends Fragment {
+public class MainActivityFragment extends BaseMainFragment {
 
     private String loadedJoke;
-    private ProgressBar progressBar;
 
     private InterstitialAd interstitialAd;
 
@@ -70,7 +72,12 @@ public class MainActivityFragment extends Fragment {
         interstitialAd.loadAd(adRequest);
     }
 
-    private void tellJoke(){
+    protected void tellJoke(){
+        if (!Utils.isConnected(getContext())) {
+            showErrorDialog();
+            return;
+        }
+
         progressBar.setVisibility(View.VISIBLE);
         new GetJokeAsyncTask(new IJokeDownloadListener() {
             @Override
@@ -91,4 +98,6 @@ public class MainActivityFragment extends Fragment {
         intent.putExtra(ActivityJoke.KEY_JOKE, joke);
         getActivity().startActivity(intent);
     }
+
+
 }
