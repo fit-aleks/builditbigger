@@ -12,14 +12,14 @@ public class ApplicationTest extends ApplicationTestCase<Application> implements
         super(Application.class);
     }
 
-    private GetJokeAsyncTask getJokeAsyncTask;
+    private GetJokeAsyncTaskTest getJokeAsyncTask;
     private CountDownLatch signal;
     private String returnedJoke;
 
     @Override
     protected void setUp() throws Exception {
         super.setUp();
-        getJokeAsyncTask = new GetJokeAsyncTask(this);
+        getJokeAsyncTask = new GetJokeAsyncTaskTest(this);
         signal = new CountDownLatch(1);
         returnedJoke = "";
     }
