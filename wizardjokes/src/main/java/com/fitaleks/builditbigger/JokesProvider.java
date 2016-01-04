@@ -12,7 +12,9 @@ public class JokesProvider {
             "An infinite crowd of mathematicians enters a bar. The first one orders a pint, the second one a half pint, the third one a quarter pint… \"I understand\", says the bartender – and pours two pints.",
             "SODIUM SODIUM SODIUM SODIUM SODIUM SODIUM SODIUM SODIUM BATMAN!",
             "Schrödinger cat walks into a bar and doesn't",
-            "The first rule of tautology club is the first rule of tautology club."
+            "The first rule of tautology club is the first rule of tautology club.",
+            "Most people believe that if it ain't broke, don't fix it.\n" +
+                    "Engineers believe that if it ain't broke, it doesn't have enough features yet."
     };
 
     private static final String[] JOKES_IMGS = new String[] {
