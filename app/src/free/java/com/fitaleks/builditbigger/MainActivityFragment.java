@@ -16,7 +16,7 @@ import com.google.android.gms.ads.AdView;
 import com.google.android.gms.ads.InterstitialAd;
 
 /**
- * A placeholder fragment containing a simple view.
+ * Main fragment for free version of the app
  */
 public class MainActivityFragment extends Fragment {
 
@@ -49,7 +49,7 @@ public class MainActivityFragment extends Fragment {
         mAdView.loadAd(adRequest);
 
         interstitialAd = new InterstitialAd(getContext());
-        interstitialAd.setAdUnitId("ca-app-pub-3940256099942544/1033173712");
+        interstitialAd.setAdUnitId(getString(R.string.interstitial_ad_unit_id));
         interstitialAd.setAdListener(new AdListener() {
             @Override
             public void onAdClosed() {

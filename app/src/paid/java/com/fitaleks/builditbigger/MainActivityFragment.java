@@ -12,7 +12,7 @@ import android.widget.ProgressBar;
 import com.fitaleks.displayjokes.ActivityJoke;
 
 /**
- * A placeholder fragment containing a simple view.
+ * Main fragment for paid version of the app
  */
 public class MainActivityFragment extends Fragment {
 
