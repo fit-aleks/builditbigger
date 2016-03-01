@@ -24,3 +24,9 @@ Also app fully implements following items.
 * The free app variant displays interstitial ads between the main activity and the joke-displaying activity.
 * The app displays a loading indicator while the joke is being fetched from the server.
 * The root build.gradle file contains a task that will start up the GCE development server, run all Android tests, then shutdown the development server.
+
+## Screens
+
+<img src="https://github.com/fit-aleks/udacity-builditbigger/blob/master/art/MainScreen.png" alt="" width="272" height="465" />
+<img src="https://github.com/fit-aleks/udacity-builditbigger/blob/master/art/JokeText.png" alt="" width="272" height="465" />
+<img src="https://github.com/fit-aleks/udacity-builditbigger/blob/master/art/JokeImage.png" alt="" width="272" height="465" />
